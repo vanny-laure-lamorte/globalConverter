@@ -1,8 +1,6 @@
 package src;
 
 import java.util.Scanner;
-import src.InputUser;
-
 
 public class Main extends InputUser {
     public static void main(String[] args) {
@@ -17,12 +15,21 @@ public class Main extends InputUser {
             "       ║        By Lucas M., Than L, Vanny L.      ║\n" +
             "       ║                                           ║\n" +
             "       ╚═══════════════════════════════════════════╝\n" +
-            "\n          Please enter a string to translate:" 
-        );    
+            "\nPlease enter a string to translate: " 
+        );
         
-        String input1 = input.nextLine();
+        String input1 = input.nextLine();       
         
-        System.out.println(input1);
-        input.close();        
+        // Verify if the user enter a valid input
+        while (!InputValidator.isValidString(input1)) {
+            System.out.println("Invalid input! Please enter a valid string.");
+           input1 = input.nextLine();
+        }; 
+
+
+        
+        input.close();  
+        
+        
     }
 }
