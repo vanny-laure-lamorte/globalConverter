@@ -39,7 +39,7 @@ public class Translate {
 
         switch (baseType) {
             case 't':
-                return "";
+                return binaryToText(binaryString.toString().trim().replace(" ", ""));
             case 'h':
                 return binaryToHex(binaryString.toString().trim().replace(" ", ""));
             case 'o':
@@ -71,7 +71,7 @@ public class Translate {
     }
 
     public static String binaryToOctal(String binary) {
-        // Convert binary to octal
+        // Convert binary to octal without using Java's built-in methods
         // Pad the binary string with leading zeros to make its length a multiple of 3
         int len = binary.length();
         int padLength = (3 - (len % 3)) % 3;
@@ -83,8 +83,11 @@ public class Translate {
         StringBuilder octal = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 3) {
             String group = binary.substring(i, i + 3);
-            int decimalValue = Integer.parseInt(group, 2);  // Convert binary group to decimal
-            octal.append(Integer.toString(decimalValue, 8)); // Convert decimal to octal and append
+            int decimalValue = 0;
+            for (int j = 0; j < group.length(); j++) {
+                decimalValue = decimalValue * 2 + (group.charAt(j) - '0');
+            }
+            octal.append(decimalValue);
         }
 
         return octal.toString();
@@ -112,6 +115,17 @@ public class Translate {
         }
     
         return hex.toString();
+    }
+
+    public static String binaryToText(String binary) {
+        // Convert binary to text
+        StringBuilder text = new StringBuilder();
+        for (int i = 0; i < binary.length(); i += 8) {
+            String group = binary.substring(i, i + 8);
+            int decimalValue = Integer.parseInt(group, 2);  // Convert binary group to decimal
+            text.append((char) decimalValue);
+        }
+        return text.toString();
     }
 }
 
