@@ -105,10 +105,10 @@ public class TerminalDisplay {
             String inputString = getInputString(input);
             displayStringToTranslate(inputString);
             String inputBaseTo = Display.getTranslationBaseTo(input);
-            Display.displayTranslationBaseTo(inputBaseTo);
+            inputString = Translate.translateTowardBinary(inputString);
+            Display.displayTranslationBaseTo(inputString);
 
             return inputBaseTo;
-            
         }
 
 
