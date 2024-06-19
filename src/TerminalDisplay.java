@@ -60,7 +60,7 @@ public class TerminalDisplay {
                 System.out.println();
             }
             return inputString;
-        }
+        }   
 
         // Display String
         public static void displayStringToTranslate(String inputString) {
@@ -102,15 +102,10 @@ public class TerminalDisplay {
             String inputString = getInputString(input);
             displayStringToTranslate(inputString);
             String inputBaseTo = Display.getTranslationBaseTo(input);
-            inputString = Translate.translateTowardBinary(inputString);
+            inputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
             Display.displayTranslationBaseTo(inputString);
 
             return inputBaseTo;
         }
-
-
-
-
-
     }
 }
