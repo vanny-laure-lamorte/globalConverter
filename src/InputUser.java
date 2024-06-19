@@ -10,7 +10,7 @@ public class InputUser {
         public static boolean isValidBase(String base) {
             // Validate base input
             return base.matches("text|t|hexadecimal|h|octal|o|decimal|d|binary|b|return|r");
-         //   return base.matches("text|Text|t|hexadecimal|Hexadecimal|h|octal|Octal|o|decimal|Decimal|d|binary|Binary|b|return|Return|r");
+
         }
     }
     
