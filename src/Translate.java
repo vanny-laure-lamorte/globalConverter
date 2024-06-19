@@ -8,7 +8,7 @@ public class Translate {
      * Finally, we concatenate the binary values to get the final binary string
     */
     
-    public static String translateTowardBinary(String inputString){
+    public static String translateTowardBinary(String inputString, char baseType){
         // ! Debugging purposes
         System.out.println("String to translate: " + inputString);
         StringBuilder binaryString = new StringBuilder();
@@ -36,7 +36,21 @@ public class Translate {
 
             binaryString.append(binaryValue).append(" ");
         }
-        return binaryString.toString().trim();
+
+        switch (baseType) {
+            case 't':
+                return "";
+            case 'h':
+                return binaryToHex(binaryString.toString().trim().replace(" ", ""));
+            case 'o':
+                return binaryToOctal(binaryString.toString().trim().replace(" ", ""));
+            case 'd':
+                return String.valueOf(binaryToDecimal(binaryString.toString().trim().replace(" ", "")));
+            case 'b':
+                return binaryString.toString().trim();
+            default:
+                return "Invalid base type";
+        }
     }
 
     public static int binaryToDecimal(String binary) {
@@ -55,4 +69,49 @@ public class Translate {
         }
         return decimal;
     }
+
+    public static String binaryToOctal(String binary) {
+        // Convert binary to octal
+        // Pad the binary string with leading zeros to make its length a multiple of 3
+        int len = binary.length();
+        int padLength = (3 - (len % 3)) % 3;
+        for (int i = 0; i < padLength; i++) {
+            binary = "0" + binary;
+        }
+
+        // Group the bits in sets of 3 and convert each group to an octal digit
+        StringBuilder octal = new StringBuilder();
+        for (int i = 0; i < binary.length(); i += 3) {
+            String group = binary.substring(i, i + 3);
+            int decimalValue = Integer.parseInt(group, 2);  // Convert binary group to decimal
+            octal.append(Integer.toString(decimalValue, 8)); // Convert decimal to octal and append
+        }
+
+        return octal.toString();
+    }
+
+    public static String binaryToHex(String binary) {
+        // Convert binary to hexadecimal
+        int len = binary.length();
+        int padLength = (4 - (len % 4)) % 4;
+        for (int i = 0; i < padLength; i++) {
+            binary = "0" + binary;
+        }
+    
+        StringBuilder hex = new StringBuilder();
+        for (int i = 0; i < binary.length(); i += 4) {
+            String group = binary.substring(i, i + 4);
+            int decimalValue = Integer.parseInt(group, 2);  // Convert binary group to decimal
+            String hexValue = Integer.toString(decimalValue, 16).toUpperCase(); // Convert decimal to hex
+            hex.append(hexValue);
+        }
+    
+        // Insert space every two characters
+        for (int j = 2; j < hex.length(); j += 3) {
+            hex.insert(j, " ");
+        }
+    
+        return hex.toString();
+    }
 }
+
