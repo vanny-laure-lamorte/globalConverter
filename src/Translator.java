@@ -38,45 +38,7 @@ public class Translator {
             "1100001", "1100010", "1100011", "1100100", "1100101", "1100110", "1100111", "1101000", "1101001", "1101010", "1101011", "1101100", "1101101", "1101110", "1101111", "1110000", "1110001", "1110010", "1110011", "1110100", "1110101", "1110110", "1110111", "1111000", "1111001", "1111010" // letters a-z
         };
 
-        // Test
-        System.out.println("Normal:");
-        for (int i = 0; i < normal.length; i++) {
-            System.out.print(normal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nDecimal:");
-        for (int i = 0; i < decimal.length; i++) {
-            System.out.print(decimal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nOctal:");
-        for (int i = 0; i < octal.length; i++) {
-            System.out.print(octal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nHexadecimal:");
-        for (int i = 0; i < hexadecimal.length; i++) {
-            System.out.print(hexadecimal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nBinary:");
-        for (int i = 0; i < binary.length; i++) {
-            System.out.print(binary[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
+        
     }
+
 }
