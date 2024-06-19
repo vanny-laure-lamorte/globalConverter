@@ -19,6 +19,7 @@ public class TerminalDisplay {
                     "       ╚═══════════════════════════════════════════╝\n");
         }
 
+        // Ask the user to chose the string type to convert
         public static String getTranslationBaseFrom(Scanner input) {
             System.out.print("\n" +
                     "       ╔═══════════════════════════════════════════╗\n" +
@@ -32,7 +33,9 @@ public class TerminalDisplay {
 
             String inputBaseFrom = input.nextLine().toLowerCase();
 
-            while (!InputValidator.isValidBase(inputBaseFrom)) {
+
+            
+            while (!InputValidator.isValidBinary(inputBaseFrom)) {
                 System.out.print("Invalid input! Please choose one of the available base options" +
                         "\nPlease choose the type of string you want to convert : ");
                 inputBaseFrom = input.nextLine().toLowerCase();
