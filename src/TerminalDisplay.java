@@ -8,7 +8,7 @@ public class TerminalDisplay {
 
     public static class Display {
 
-        // Welcome Message
+        // Welcome Message with the team names
         public static void displayWelcomeMessage() {
             System.out.print("\n" +
                     "       ╔═══════════════════════════════════════════╗\n" +
@@ -27,14 +27,14 @@ public class TerminalDisplay {
                     "       ║                                           ║\n" +
                     "       ║      Text   (t)      Hexadecimal (h)      ║\n" +
                     "       ║      Octal  (o)      Decimal     (d)      ║\n" +
-                    "       ║      Binary (b)      Return      (r)      ║\n" +
+                    "       ║      Binary (b)                           ║\n" +
                     "       ╚═══════════════════════════════════════════╝\n" +
                     "Please choose the type of string you want to convert : ");
 
             String inputBaseFrom = input.nextLine().toLowerCase();
             
-            while (!InputValidator.isValidBase(inputBaseFrom)) {
-                System.out.print("Invalid input! Please choose one of the available string type" +
+            while (!InputValidator.isValidBaseFrom(inputBaseFrom)) {
+                System.out.print("Invalid input! Please choose one of the available string type. \n \n" +
                         "Please choose the type of string you want to convert : ");
                 inputBaseFrom = input.nextLine().toLowerCase();
                 System.out.println();
@@ -42,11 +42,12 @@ public class TerminalDisplay {
             return inputBaseFrom;
         }
 
+        // Display the type of string the user want to convert
         public static void displayTranslationBaseFrom(String inputBaseFrom) {
-            System.out.printf("Here is the type of string you want to convert: %s\n\n", inputBaseFrom);
+            System.out.printf("Here is the type of string you want to convert: " +inputBaseFrom + " \n\n ");
         }
 
-        // Ask user to enter a string to translate and check if the input is valid
+        // Ask the user to enter a string to translate and check if the input is valid
         public static String getInputString(Scanner input, String inputBaseFrom) {
             System.out.print("\nPlease enter a string to translate: ");
             String inputString = input.nextLine();
@@ -62,12 +63,13 @@ public class TerminalDisplay {
             return inputString;
         }
 
-        // Display String type 
+        // Display the string the user wants to translate
         public static void displayStringToTranslate(String inputString) {
             System.out.println();
             System.out.printf("Here is the string you want to translate: %s\n\n", inputString);
-        }
-
+        }        
+        
+        // Display the available translation bases and check if the user input is valid
         public static String getTranslationBaseTo(Scanner input) {
             System.out.print("\n" +
                     "       ╔═══════════════════════════════════════════╗\n" +
@@ -81,20 +83,21 @@ public class TerminalDisplay {
 
             String inputBaseTo = input.nextLine().toLowerCase();
 
-            while (!InputValidator.isValidBase(inputBaseTo)) {
+            while (!InputValidator.isValidBaseTo(inputBaseTo)) {
                 System.out.print("Invalid input! Please choose one of the available base options" +
                         "\nPlease enter your translation base: ");
                 inputBaseTo = input.nextLine().toLowerCase();
                 System.out.println();
-
             }
             return inputBaseTo;
         }
 
+        // Display the translation base the user wants 
         public static void displayTranslationBaseTo(String inputBaseTo) {
             System.out.printf("Here is the translation base you want: %s\n\n", inputBaseTo);
         }
-
+        
+        // Display all messages in the terminal 
         public static String startTranslation(Scanner input) {
             Display.displayWelcomeMessage();
             String inputBaseFrom = Display.getTranslationBaseFrom(input);

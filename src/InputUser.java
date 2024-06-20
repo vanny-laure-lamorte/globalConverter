@@ -2,41 +2,43 @@ package src;
 public class InputUser {
     public class InputValidator {
 
-        /*public static boolean isValidString(String input) {
 
-            // Verify if input contains only alphabets / numerics / space
-            return input.matches("[a-zA-Z0-9 ]+");
-        }*/
-    
-        public static boolean isValidBase(String base) {
-            // Validate base input
+        // Validate string type
+        public static boolean isValidBaseFrom(String base) {
+            return base.matches("text|t|hexadecimal|h|octal|o|decimal|d|binary|b");
+        } 
+        
+        // Validate translation base 
+        public static boolean isValidBaseTo(String base) {
             return base.matches("text|t|hexadecimal|h|octal|o|decimal|d|binary|b|return|r");
         } 
 
-        // Only lowercase or uppercase letters
+        // Validate only lowercase, uppercase letters and spaces
         public static boolean isValidText(String base) {
             return base.matches("[a-zA-Z0-9 ]+");
         }
 
-        // Numbers between 0 and 7
+        // Validate only numbers between 0 and 7 and spaces
         public static boolean isValidOctal(String base) {
             return base.matches("[0-7 ]+");
         }
 
-        // Only 0 and 1, min 8 numbers
+        // Validate only numbers between 0 and 1, space and the input should have min 8 numbers
         public static boolean isValidBinary(String base) {
             return base.matches("[01 ]{8,}");
         }
 
+        //  Validate only numbers between 0 and 9, lowercase and uppercase letters and spaces
         public static boolean isValidHexadecimal(String base) {
             return base.matches("[a-zA-Z0-9 ]+");
         }
 
-        // Only 0 and 9
+        // Validate only numbers between 0 and 9 and spaces
         public static boolean isValidDecimal(String base) {
             return base.matches("[0-9 ]+");
         }
 
+        // Validate the user input depending on the type of string he wants to translate
         public static boolean isValidInputUser(String input, String inputBaseFrom) {
             switch (inputBaseFrom.toLowerCase()) {
                 case "text":
@@ -56,7 +58,6 @@ public class InputUser {
                 case "d": 
                 return InputValidator.isValidDecimal(input);              
                 default:
-                    // Handle other input types or return false for invalid type
                     return false;
             }
         }
