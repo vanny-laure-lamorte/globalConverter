@@ -29,18 +29,15 @@ public class TerminalDisplay {
                     "       ║      Octal  (o)      Decimal     (d)      ║\n" +
                     "       ║      Binary (b)      Return      (r)      ║\n" +
                     "       ╚═══════════════════════════════════════════╝\n" +
-                    "\n Please choose the type of string you want to convert : ");
+                    "Please choose the type of string you want to convert : ");
 
             String inputBaseFrom = input.nextLine().toLowerCase();
-
-
             
-            while (!InputValidator.isValidBinary(inputBaseFrom)) {
-                System.out.print("Invalid input! Please choose one of the available base options" +
-                        "\nPlease choose the type of string you want to convert : ");
+            while (!InputValidator.isValidBase(inputBaseFrom)) {
+                System.out.print("Invalid input! Please choose one of the available string type" +
+                        "Please choose the type of string you want to convert : ");
                 inputBaseFrom = input.nextLine().toLowerCase();
                 System.out.println();
-
             }
             return inputBaseFrom;
         }
@@ -49,23 +46,23 @@ public class TerminalDisplay {
             System.out.printf("Here is the type of string you want to convert: %s\n\n", inputBaseFrom);
         }
 
-
         // Ask user to enter a string to translate and check if the input is valid
-        public static String getInputString(Scanner input) {
+        public static String getInputString(Scanner input, String inputBaseFrom) {
             System.out.print("\nPlease enter a string to translate: ");
             String inputString = input.nextLine();
             System.out.println();
 
-            while (!InputValidator.isValidString(inputString)) {
-                System.out.print("Invalid input! Please enter a valid string without special characters." +
+            while (!InputValidator.isValidInputUser(inputString, inputBaseFrom)) {
+                System.out.print("Invalid input! Please enter a valid string for \"" + inputBaseFrom + "\" type."+
                         "\nPlease enter a string to translate: ");
                 inputString = input.nextLine();
                 System.out.println();
             }
+
             return inputString;
         }
 
-        // Display String
+        // Display String type 
         public static void displayStringToTranslate(String inputString) {
             System.out.println();
             System.out.printf("Here is the string you want to translate: %s\n\n", inputString);
@@ -102,7 +99,7 @@ public class TerminalDisplay {
             Display.displayWelcomeMessage();
             String inputBaseFrom = Display.getTranslationBaseFrom(input);
             Display.displayTranslationBaseTo(inputBaseFrom);
-            String inputString = getInputString(input);
+            String inputString = getInputString(input, inputBaseFrom);
             displayStringToTranslate(inputString);
             String inputBaseTo = Display.getTranslationBaseTo(input);
             inputString = Translate.translateTowardBinary(inputString);
@@ -110,10 +107,5 @@ public class TerminalDisplay {
 
             return inputBaseTo;
         }
-
-
-
-
-
     }
 }
