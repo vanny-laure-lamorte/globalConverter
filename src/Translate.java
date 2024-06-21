@@ -141,24 +141,35 @@ public class Translate {
         for (int i = 0; i < padLength; i++) {
             binary = "0" + binary;
         }
-        System.out.println("Padded binary: " + binary);
     
         StringBuilder hex = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 4) {
             String group = binary.substring(i, i + 4);
             int decimalValue = Integer.parseInt(group, 2); // Convert binary group to decimal
-            String hexValue = Integer.toString(decimalValue, 16).toUpperCase(); // Convert decimal to hex
-            hex.append(hexValue);
+    
+            // Manually convert decimal to hexadecimal
+            StringBuilder hexDigit = new StringBuilder();
+            do {
+                int remainder = decimalValue % 16;
+                if (remainder < 10) {
+                    hexDigit.insert(0, (char) ('0' + remainder)); // Convert to char '0'-'9'
+                } else {
+                    hexDigit.insert(0, (char) ('A' + (remainder - 10))); // Convert to char 'A'-'F'
+                }
+                decimalValue /= 16;
+            } while (decimalValue != 0);
+            
+            hex.append(hexDigit);
         }
-
+    
         // Insert space every two characters
         for (int j = 2; j < hex.length(); j += 3) {
             hex.insert(j, " ");
         }
-
+    
         return hex.toString();
     }
-
+    
     public static String binaryToText(String binary) {
         // Convert binary to text
         StringBuilder text = new StringBuilder();
