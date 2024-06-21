@@ -1,5 +1,6 @@
 package src;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import src.InputUser.InputValidator;
@@ -96,17 +97,54 @@ public class TerminalDisplay {
         public static void displayTranslationBaseTo(String inputBaseTo) {
             System.out.printf("Here is the translation base you want: %s\n\n", inputBaseTo);
         }
-        
+
+
+        // Ask the user if he wish to use Caesar Cipher
+        public static int displayCaesarInput(Scanner input) {
+            String inputCesarAnswer;
+
+            do {
+                System.out.println("Do you wish to use Caesar Cipher ? (Y/N)");
+                inputCesarAnswer = input.next().toLowerCase();
+                if (!inputCesarAnswer.equals("y") && !inputCesarAnswer.equals("n")) {
+                    System.out.println("You must choose Y or N");
+                }
+            } while (!inputCesarAnswer.equals("y") && !inputCesarAnswer.equals("n")); 
+
+
+            if (inputCesarAnswer.equals("y")) {
+            while (true) {
+                System.out.print("Enter the Caesar shift value : ");
+                try {
+                    int inputCesarShift = input.nextInt();
+                    input.nextLine(); 
+                    return inputCesarShift;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a numeric value only. \n ");
+                    input.nextLine(); 
+                }
+            }
+        } else {
+            System.out.println("No problem. Let's go back to the Menu");
+            return 0;
+        }
+    }        
         // Display all messages in the terminal 
         public static String startTranslation(Scanner input) {
+
+
             Display.displayWelcomeMessage();
             String inputBaseFrom = Display.getTranslationBaseFrom(input);
             Display.displayTranslationBaseTo(inputBaseFrom);
             String inputString = getInputString(input, inputBaseFrom);
             displayStringToTranslate(inputString);
+            
             String inputBaseTo = Display.getTranslationBaseTo(input);
-            inputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
-            Display.displayTranslationBaseTo(inputString);
+            if (!inputBaseTo.equals("r")&& !inputBaseTo.equals("return")) {
+                inputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
+                Display.displayTranslationBaseTo(inputString);
+                displayCaesarInput(input);
+            }
 
             return inputBaseTo;
         }
