@@ -141,7 +141,8 @@ public class TerminalDisplay {
             if (!inputBaseTo.equals("r")&& !inputBaseTo.equals("return")) {
                 inputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
                 displayTranslationBaseTo(inputString);
-                displayCaesarInput(input);
+                int inputShift = displayCaesarInput(input);
+                Caesar.encryption(inputString, inputShift); 
             }
 
             return inputBaseTo;
