@@ -7,8 +7,6 @@ import src.InputUser.InputValidator;
 
 public class TerminalDisplay {
 
-    public static class Display {
-
         // Welcome Message with the team names
         public static void displayWelcomeMessage() {
             System.out.print("\n" +
@@ -132,21 +130,21 @@ public class TerminalDisplay {
         // Display all messages in the terminal 
         public static String startTranslation(Scanner input) {
 
-
-            Display.displayWelcomeMessage();
-            String inputBaseFrom = Display.getTranslationBaseFrom(input);
-            Display.displayTranslationBaseTo(inputBaseFrom);
+            displayWelcomeMessage();
+            String inputBaseFrom = getTranslationBaseFrom(input);
+            displayTranslationBaseTo(inputBaseFrom);
             String inputString = getInputString(input, inputBaseFrom);
             displayStringToTranslate(inputString);
-            
-            String inputBaseTo = Display.getTranslationBaseTo(input);
+
+            // Display Cesar Cipher only if the user doesn't chose return            
+            String inputBaseTo = getTranslationBaseTo(input);
             if (!inputBaseTo.equals("r")&& !inputBaseTo.equals("return")) {
                 inputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
-                Display.displayTranslationBaseTo(inputString);
+                displayTranslationBaseTo(inputString);
                 displayCaesarInput(input);
             }
 
             return inputBaseTo;
         }
     }
-}
+
