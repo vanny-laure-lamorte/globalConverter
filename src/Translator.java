@@ -43,45 +43,7 @@ public class Translator {
             "0100000" // space 
         };
 
-        // Test
-        System.out.println("Normal:");
-        for (int i = 0; i < normal.length; i++) {
-            System.out.print(normal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nDecimal:");
-        for (int i = 0; i < decimal.length; i++) {
-            System.out.print(decimal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nOctal:");
-        for (int i = 0; i < octal.length; i++) {
-            System.out.print(octal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nHexadecimal:");
-        for (int i = 0; i < hexadecimal.length; i++) {
-            System.out.print(hexadecimal[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
-
-        System.out.println("\n\nBinary:");
-        for (int i = 0; i < binary.length; i++) {
-            System.out.print(binary[i] + " ");
-            if (i == 9 || i == 35) {
-                System.out.print("\n");
-            }
-        }
+        
     }
+
 }
