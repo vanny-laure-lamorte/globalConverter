@@ -71,26 +71,54 @@ public class Translate {
     }
 
     public static String binaryToOctal(String binary) {
-        // Convert binary to octal without using Java's built-in methods
-        // Pad the binary string with leading zeros to make its length a multiple of 3
-        int len = binary.length();
-        int padLength = (3 - (len % 3)) % 3;
-        for (int i = 0; i < padLength; i++) {
-            binary = "0" + binary;
+        // Check if the binary string is a multiple of 8
+        if (binary.length() % 8 != 0) {
+            throw new IllegalArgumentException("La chaîne binaire doit avoir une longueur multiple de 8 bits.");
         }
 
-        // Group the bits in sets of 3 and convert each group to an octal digit
-        StringBuilder octal = new StringBuilder();
-        for (int i = 0; i < binary.length(); i += 3) {
-            String group = binary.substring(i, i + 3);
-            int decimalValue = 0;
-            for (int j = 0; j < group.length(); j++) {
-                decimalValue = decimalValue * 2 + (group.charAt(j) - '0');
+        // Variable used to store the octal result
+        StringBuilder octalResult = new StringBuilder();
+
+        // Parse the binary string in 8-bit segments
+        for (int i = 0; i < binary.length(); i += 8) {
+            // Extract an 8-bit segment
+            String byteSegment = binary.substring(i, i + 8);
+
+            // Add padding if the segment is less than 8 bits
+            int len = byteSegment.length();
+            int padLength = (3 - (len % 3)) % 3;
+            for (int j = 0; j < padLength; j++) {
+                byteSegment = "0" + byteSegment;
             }
-            octal.append(decimalValue);
+
+            // Convert the 8-bit segment to octal
+            StringBuilder octal = new StringBuilder();
+            for (int k = 0; k < byteSegment.length(); k += 3) {
+                // Extraire un groupe de 3 bits manuellement
+                int octalDigit = 0;
+                if (byteSegment.charAt(k) == '1') {
+                    octalDigit += 4;
+                }
+                if (byteSegment.charAt(k + 1) == '1') {
+                    octalDigit += 2;
+                }
+                if (byteSegment.charAt(k + 2) == '1') {
+                    octalDigit += 1;
+                }
+                octal.append(octalDigit);
+            }
+
+            // Add the octal result to the final string
+            octalResult.append(octal);
         }
 
-        return octal.toString();
+        // Insert space every three characters
+        for (int j = 3; j < octalResult.length(); j += 4) {
+            octalResult.insert(j, " ");
+        }
+
+        // Retourn the octal result
+        return octalResult.toString();
     }
 
     public static String binaryToHex(String binary) {
@@ -100,6 +128,7 @@ public class Translate {
         for (int i = 0; i < padLength; i++) {
             binary = "0" + binary;
         }
+        System.out.println("Padded binary: " + binary);
     
         StringBuilder hex = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 4) {
