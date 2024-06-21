@@ -6,13 +6,13 @@ public class Translate {
      * First, we convert the string with ASCII values
      * Then, we convert the ASCII values to binary using Integer.toBinaryString
      * Finally, we concatenate the binary values to get the final binary string
-    */
-    
-    public static String translateTowardBinary(String inputString, char baseType){
+     */
+
+    public static String translateTowardBinary(String inputString, char baseType) {
         // ! Debugging purposes
         System.out.println("String to translate: " + inputString);
         StringBuilder binaryString = new StringBuilder();
-        
+
         for (int chara = 0; chara < inputString.length(); chara++) {
             // Convert the character to an ASCII value
             char character = inputString.charAt(chara);
@@ -32,7 +32,8 @@ public class Translate {
             }
             // ! Debugging purposes
             // Print the character, ASCII value, and binary value
-            System.out.println("Character: " + character + " ASCII value: " + (int) character + " Binary value: " + binaryValue.toString());
+            System.out.println("Character: " + character + " ASCII value: " + (int) character + " Binary value: "
+                    + binaryValue.toString());
 
             binaryString.append(binaryValue).append(" ");
         }
@@ -53,21 +54,33 @@ public class Translate {
         }
     }
 
-    public static int binaryToDecimal(String binary) {
+    public static String binaryToDecimal(String binary) {
         /*
          * Method to convert a binary string to a decimal number
          * We start from the rightmost bit and multiply it by 2^0, 2^1, 2^2, and so on
          * We add the results to get the decimal number
          */
-        int decimal = 0;
-        int power = 0;
-        for (int i = binary.length() - 1; i >= 0; i--) {
-            if (binary.charAt(i) == '1') {
-                decimal += Math.pow(2, power);
+        StringBuilder result = new StringBuilder();
+
+        // Iterate through the binary string in chunks of 8 bits
+        for (int i = 0; i < binary.length(); i += 8) {
+            String eightBits = binary.substring(i, Math.min(i + 8, binary.length()));
+
+            // Convert the 8-bit binary string to decimal
+            int decimalValue = 0;
+            int power = 0;
+
+            // Calculate the decimal value of the 8-bit binary string
+            for (int j = eightBits.length() - 1; j >= 0; j--) {
+                int character = eightBits.charAt(j) - '0'; // Convert char to int (either 0 or 1)
+                decimalValue += character * Math.pow(2, power);
+                power++;
             }
-            power++;
+
+            result.append(decimalValue).append(" ");
         }
-        return decimal;
+
+        return result.toString().trim();
     }
 
     public static String binaryToOctal(String binary) {
@@ -133,16 +146,16 @@ public class Translate {
         StringBuilder hex = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 4) {
             String group = binary.substring(i, i + 4);
-            int decimalValue = Integer.parseInt(group, 2);  // Convert binary group to decimal
+            int decimalValue = Integer.parseInt(group, 2); // Convert binary group to decimal
             String hexValue = Integer.toString(decimalValue, 16).toUpperCase(); // Convert decimal to hex
             hex.append(hexValue);
         }
-    
+
         // Insert space every two characters
         for (int j = 2; j < hex.length(); j += 3) {
             hex.insert(j, " ");
         }
-    
+
         return hex.toString();
     }
 
@@ -151,10 +164,9 @@ public class Translate {
         StringBuilder text = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 8) {
             String group = binary.substring(i, i + 8);
-            int decimalValue = Integer.parseInt(group, 2);  // Convert binary group to decimal
+            int decimalValue = Integer.parseInt(group, 2); // Convert binary group to decimal
             text.append((char) decimalValue);
         }
         return text.toString();
     }
 }
-
