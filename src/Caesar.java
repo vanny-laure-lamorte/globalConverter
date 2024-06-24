@@ -2,7 +2,7 @@ package src;
 
 public class Caesar {
 
-    
+    // Method to convert a decimal number to binary string
     public static String convertToBinary(int number) {
         if (number == 0)
             return "0";
@@ -14,6 +14,7 @@ public class Caesar {
         return binaryString.reverse().toString();
     }
 
+    // Method to pad a binary string to a specified lenght with leading zeros
     public static String padBinaryString(String binary, int length) {
         StringBuilder padded = new StringBuilder();
         for (int i = 0; i < length - binary.length(); i++) {
@@ -23,10 +24,12 @@ public class Caesar {
         return padded.toString();
     }
 
+    // Method to add two binary strings
     public static String addBinaryStrings(String binary1, String binary2) {
         StringBuilder result = new StringBuilder();
         int carry = 0;
 
+        // Traverse the binary strings from right to left 
         for (int i = binary1.length() - 1; i >= 0; i--) {
             int bit1 = binary1.charAt(i) - '0';
             int bit2 = binary2.charAt(i) - '0';
@@ -41,6 +44,7 @@ public class Caesar {
         return result.reverse().toString();
     }
 
+    // Method ti perform encryption using Caesar Cipher with binary manipulation
     public static String encryption(String inputString, int offset) {
         // Convert the inputString to a binary with spaces after every 8 bits
         StringBuilder binaryString = new StringBuilder();
@@ -71,11 +75,12 @@ public class Caesar {
         // Convert the shifted binary string back to text
         String results = Translate.binaryToText(finalBinaryString); 
 
-        // Display messages (optional)
-        System.out.println("1. Input string: " + inputString);
-        System.out.println("2. Input string to Binary: " + inputBinary);
-        System.out.println("3. Shifted binary string: " + finalBinaryString);
-        System.out.println("4. Resulting string after Caesar Cipher with offset " + offset + ": " + results.toString() + "\n");
+        // Display messages
+        System.out.println("1. Input string to Binary: " + inputBinary);
+        System.out.println("2. Shifted binary string: " + finalBinaryString);
+
+        System.out.println("\n3. Your string before Caesar Cipher: " + inputString);
+        System.out.println("4. Your string after Caesar Cipher with " + offset + " as a shift value: " + results + "\n");
     
         return results.toString();
     }
