@@ -48,7 +48,6 @@ public class Caesar {
 
         // Convert the offset to a binary     
         String binaryOffset = convertToBinary(offset);
-        System.out.println("Décallage ICI : " + binaryOffset);
 
         // Pad the binary strings to the same length
         int maxLength = Math.max(binaryString.length(), binaryOffset.length());
@@ -57,13 +56,12 @@ public class Caesar {
 
         // Add the binary strings
         String addedBinaryString = addBinaryStrings(paddedBinaryString, paddedBinaryOffset);
-        System.out.println("Binary addition result: " + addedBinaryString);
 
         // Apply the Caesar cipher shift on the binary string.
         StringBuilder shifted = new StringBuilder();
         for (int i = 0; i < addedBinaryString.length(); i++) {
             char c = addedBinaryString.charAt(i);
-            System.out.println("char c: " + c);
+           // System.out.println("char c: " + c);
 
             if (c == '0' || c == '1') {
                 int originalValue = c - '0';
@@ -79,11 +77,12 @@ public class Caesar {
         String results = Translate.binaryToText(shifted.toString());
 
         // Display messages
-        System.out.println("1. Your string before Caesar Cipher: " + inputString);
         System.out.println("2. Input string to Binary: " + binaryString);
         System.out.println("3. Shifted binary string: " + shifted.toString().trim());
-        System.out.println("4. Your string after Caesar Cipher with " + offset + " as a shift value: " + results);
 
+        System.out.println("\nYour string before Caesar Cipher: " + inputString);
+        System.out.println("Your string after Caesar Cipher with " + offset + " as a shift value: " + results + "\n");
+        
         return shifted.toString();
     }
 
