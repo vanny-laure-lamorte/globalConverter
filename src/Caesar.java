@@ -3,7 +3,8 @@ package src;
 public class Caesar {
 
     public static String convertToBinary(int number) {
-        if (number == 0) return "0";
+        if (number == 0)
+            return "0";
         StringBuilder binaryString = new StringBuilder();
         while (number > 0) {
             binaryString.append(number % 2);
@@ -33,57 +34,86 @@ public class Caesar {
             result.append(sum % 2);
             carry = sum / 2;
         }
-
         if (carry > 0) {
             result.append(carry);
         }
-
         return result.reverse().toString();
     }
 
     public static String encryption(String inputString, int offset) {
+        // Convert the inputString to a binary with spaces after every 8 bits
+        StringBuilder binaryString = new StringBuilder();
+        for (char c : inputString.toCharArray()) {
+            String binaryChar = padBinaryString(convertToBinary((int) c), 8);
+            binaryString.append(binaryChar).append(" ");
+        }
+        String inputBinary = binaryString.toString().trim(); // Trim to remove extra space at the end
 
-        // Convert the inputString to a binary
-        String binaryString = Translate.translateTowardBinary(inputString, 'b');
+        // Convert the offset to an 8-bit binary
+        String binaryOffset = padBinaryString(convertToBinary(offset), 8);
 
-        // Convert the offset to a binary     
-        String binaryOffset = convertToBinary(offset);
-
-        // Pad the binary strings to the same length
-        int maxLength = Math.max(binaryString.length(), binaryOffset.length());
-        String paddedBinaryString = padBinaryString(binaryString, maxLength);
-        String paddedBinaryOffset = padBinaryString(binaryOffset, maxLength);
-
-        // Add the binary strings
-        String addedBinaryString = addBinaryStrings(paddedBinaryString, paddedBinaryOffset);
+        // Split the inputBinary into octets and apply the offset
+        StringBuilder addedBinaryString = new StringBuilder();
+        String[] octets = inputBinary.split(" ");
+        for (String octet : octets) {
+            if (!octet.isEmpty()) {
+                if (octet.equals("00100000")) { // Check if the octet is an ASCII space
+                    addedBinaryString.append(octet).append(" ");
+                } else {
+                    String addedOctet = addBinaryStrings(octet, binaryOffset);
+                    addedBinaryString.append(addedOctet).append(" ");
+                }
+            }
+        }
+        String finalBinaryString = addedBinaryString.toString().trim(); // Trim to remove extra space at the end
 
         // Apply the Caesar cipher shift on the binary string.
         StringBuilder shifted = new StringBuilder();
-        for (int i = 0; i < addedBinaryString.length(); i++) {
-            char c = addedBinaryString.charAt(i);
-           // System.out.println("char c: " + c);
-
-            if (c == '0' || c == '1') {
-                int originalValue = c - '0';
-                int shiftedValue = (originalValue + offset) % 2;
-                char shiftedChar = (char) ('0' + shiftedValue);
-                shifted.append(shiftedChar);
-            } else {
-                shifted.append(c);
+        String[] parts = finalBinaryString.split(" ");
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                if (part.equals("00100000")) { // Check if the part is an ASCII space
+                    shifted.append(part).append(" ");
+                } else {
+                    String shiftedPart = "";
+                    for (int i = 0; i < part.length(); i++) {
+                        char c = part.charAt(i);
+                        int originalValue = c - '0';
+                        int shiftedValue = (originalValue + offset) % 2;
+                        char shiftedChar = (char) ('0' + shiftedValue);
+                        shiftedPart += shiftedChar;
+                    }
+                    shifted.append(shiftedPart).append(" ");
+                }
             }
         }
-
-        // Convert the shifted binary string back to text 
-        String results = Translate.binaryToText(shifted.toString());
+        String shiftedBinaryString = shifted.toString().trim().replace(" ", ""); // Trim to remove extra space at the end
+        // Convert the shifted binary string back to text
 
         // Display messages
-        System.out.println("2. Input string to Binary: " + binaryString);
-        System.out.println("3. Shifted binary string: " + shifted.toString().trim());
+        System.out.println("2. Input string to Binary: " + inputBinary);
+        System.out.println("3. Shifted binary string: " + shiftedBinaryString);
+
+        String results = Translate.binaryToText(shiftedBinaryString);
+        /*
+         * StringBuilder results = new StringBuilder();
+         * String[] shiftedParts = shiftedBinaryString.split(" ");
+         * for (String part : shiftedParts) {
+         * if (!part.isEmpty()) {
+         * int charCode = Integer.parseInt(part, 2);
+         * results.append((char) charCode);
+         * }
+         * }
+         */
+
+        // Display messages
+        System.out.println("2. Input string to Binary: " + inputBinary);
+        System.out.println("3. Shifted binary string: " + shiftedBinaryString);
 
         System.out.println("\nYour string before Caesar Cipher: " + inputString);
-        System.out.println("Your string after Caesar Cipher with " + offset + " as a shift value: " + results + "\n");
-        
-        return shifted.toString();
-    }
+        System.out.println(
+                "Your string after Caesar Cipher with " + offset + " as a shift value: " + results.toString() + "\n");
 
+        return shiftedBinaryString;
+    }
 }

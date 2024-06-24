@@ -94,7 +94,8 @@ public class TerminalDisplay {
     }
 
     public static void displayTranslationResult(String inputString, String baseType, String result) {
-        System.out.println("Your translation base is \"" + baseType + "\" and you want to translate \"" + inputString + "\" ");
+        System.out.println(
+                "Your translation base is \"" + baseType + "\" and you want to translate \"" + inputString + "\" ");
         System.out.println("The result is: " + result + "\n");
     }
 
@@ -153,9 +154,10 @@ public class TerminalDisplay {
             String outputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
             displayTranslationBaseTo(inputBaseTo);
             displayTranslationResult(inputString, inputBaseTo, outputString);
-            displayCaesarMessage(); 
+            displayCaesarMessage();
             int inputShift = displayCaesarInput(input);
-            Caesar.encryption(inputString, inputShift);
+            if (inputShift != 0)
+                Caesar.encryption(inputString, inputShift);
         }
 
         return inputBaseTo;
