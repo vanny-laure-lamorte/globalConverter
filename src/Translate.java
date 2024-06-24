@@ -10,7 +10,6 @@ public class Translate {
 
     public static String translateTowardBinary(String inputString, char baseType) {
         // ! Debugging purposes
-        System.out.println("String to translate: " + inputString);
         StringBuilder binaryString = new StringBuilder();
 
         for (int chara = 0; chara < inputString.length(); chara++) {
@@ -32,8 +31,7 @@ public class Translate {
             }
             // ! Debugging purposes
             // Print the character, ASCII value, and binary value
-            System.out.println("Character: " + character + " ASCII value: " + (int) character + " Binary value: "
-                    + binaryValue.toString());
+            // System.out.println("Character: " + character + " ASCII value: " + (int) character + " Binary value: " + binaryValue.toString());
 
             binaryString.append(binaryValue).append(" ");
         }

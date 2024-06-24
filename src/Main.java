@@ -1,7 +1,6 @@
 package src;
 
 import java.util.Scanner;
-import src.TerminalDisplay.Display;
 
 public class Main {
 
@@ -19,7 +18,7 @@ public class Main {
 
             // Return option
             do {
-                statusBase = Display.startTranslation(input);
+                statusBase = TerminalDisplay.startTranslation(input);
             } while (statusBase.equals("r") || statusBase.equals("return"));
         } finally {
             input.close();
