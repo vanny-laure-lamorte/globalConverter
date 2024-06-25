@@ -150,7 +150,7 @@ public class TerminalDisplay {
         // Display Cesar Cipher only if the user doesn't chose return
         String inputBaseTo = getTranslationBaseTo(input);
         if (!inputBaseTo.equals("r") && !inputBaseTo.equals("return")) {
-            String outputString = Translate.translateTowardBinary(inputString, inputBaseTo.charAt(0));
+            String outputString = Translate.translateTowardBinary(inputBaseFrom.charAt(0), inputString, inputBaseTo.charAt(0));
             displayTranslationBaseTo(inputBaseTo);
             displayTranslationResult(inputString, inputBaseTo, outputString);
             displayCaesarMessage(); 
