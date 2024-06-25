@@ -4,178 +4,292 @@ public class Translate {
     /*
      * Class to convert a string that is passed as an argument to binary
      * First, we convert the string with ASCII values
-     * Then, we convert the ASCII values to binary using Integer.toBinaryString
+     * Then, we convert the ASCII values to binary manually
      * Finally, we concatenate the binary values to get the final binary string
      */
 
-    public static String translateTowardBinary(String inputString, char baseType) {
-        // ! Debugging purposes
-        StringBuilder binaryString = new StringBuilder();
-
-        for (int chara = 0; chara < inputString.length(); chara++) {
-            // Convert the character to an ASCII value
-            char character = inputString.charAt(chara);
-            int asciiValue = (int) character;
-            // Convert the ASCII value to binary
-            StringBuilder binaryValue = new StringBuilder();
-
-            while (asciiValue > 0) {
-                int remainder = asciiValue % 2;
-                asciiValue = asciiValue / 2;
-                binaryValue.insert(0, remainder); // prepend the remainder
-            }
-
-            // Ensure that the binary value is 8 bits long
-            while (binaryValue.length() < 8) {
-                binaryValue.insert(0, "0"); // prepend '0' to make it 8 bits
-            }
-            // ! Debugging purposes
-            // Print the character, ASCII value, and binary value
-            // System.out.println("Character: " + character + " ASCII value: " + (int) character + " Binary value: " + binaryValue.toString());
-
-            binaryString.append(binaryValue).append(" ");
+    public static String translateTowardBinary(char inputBaseFrom, String inputString, char baseType) {
+        String binaryString = "";
+        switch (inputBaseFrom) {
+            case 't':
+                binaryString = textToBinary(inputString);
+                break;
+            case 'h':
+                binaryString = hexToBinary(inputString);
+                break;
+            case 'o':
+                binaryString = octalToBinary(inputString);
+                break;
+            case 'd':
+                binaryString = decimalToBinary(inputString);
+                break;
+            case 'b':
+                binaryString = binaryToBinary(inputString);
+                break;
+            default:
+                return "Invalid input base type";
         }
 
         switch (baseType) {
             case 't':
-                return binaryToText(binaryString.toString().trim().replace(" ", ""));
+                return binaryToText(binaryString.replace(" ", ""));
             case 'h':
-                return binaryToHex(binaryString.toString().trim().replace(" ", ""));
+                return binaryToHex(binaryString.replace(" ", ""));
             case 'o':
-                return binaryToOctal(binaryString.toString().trim().replace(" ", ""));
+                return binaryToOctal(binaryString.replace(" ", ""));
             case 'd':
-                return String.valueOf(binaryToDecimal(binaryString.toString().trim().replace(" ", "")));
+                return binaryToDecimal(binaryString.replace(" ", ""));
             case 'b':
-                return binaryString.toString().trim();
+                return binaryString.trim();
             default:
                 return "Invalid base type";
         }
     }
 
-    public static String binaryToDecimal(String binary) {
-        /*
-         * Method to convert a binary string to a decimal number
-         * We start from the rightmost bit and multiply it by 2^0, 2^1, 2^2, and so on
-         * We add the results to get the decimal number
-         */
-        StringBuilder result = new StringBuilder();
-
-        // Iterate through the binary string in chunks of 8 bits
-        for (int i = 0; i < binary.length(); i += 8) {
-            String eightBits = binary.substring(i, Math.min(i + 8, binary.length()));
-
-            // Convert the 8-bit binary string to decimal
-            int decimalValue = 0;
-            int power = 0;
-
-            // Calculate the decimal value of the 8-bit binary string
-            for (int j = eightBits.length() - 1; j >= 0; j--) {
-                int character = eightBits.charAt(j) - '0'; // Convert char to int (either 0 or 1)
-                decimalValue += character * Math.pow(2, power);
-                power++;
+    public static String textToBinary(String inputString) {
+        //! debug
+        System.out.println("inputString: " + inputString);
+        StringBuilder binaryString = new StringBuilder();
+        for (int chara = 0; chara < inputString.length(); chara++) {
+            //! debug
+            System.out.println("chara: " + chara);
+            char character = inputString.charAt(chara);
+            int asciiValue = (int) character;
+            StringBuilder binaryValue = new StringBuilder();
+            while (asciiValue > 0) {
+                int remainder = asciiValue % 2;
+                asciiValue = asciiValue / 2;
+                binaryValue.insert(0, remainder);
+                //! debug
+                System.out.println("binaryValue: " + binaryValue);
             }
-
-            result.append(decimalValue).append(" ");
+            while (binaryValue.length() < 8) {
+                binaryValue.insert(0, "0");
+            }
+            binaryString = binaryString.append(binaryValue).append(" ");
+            //! debug
+            System.out.println("binaryString: " + binaryString);
         }
-
-        return result.toString().trim();
+        return binaryString.toString().trim();
     }
 
-    public static String binaryToOctal(String binary) {
-        // Check if the binary string is a multiple of 8
-        if (binary.length() % 8 != 0) {
-            throw new IllegalArgumentException("La chaîne binaire doit avoir une longueur multiple de 8 bits.");
+    public static String hexToBinary(String hex) {
+        StringBuilder binary = new StringBuilder();
+        for (int i = 0; i < hex.length(); i++) {
+            char hexDigit = hex.charAt(i);
+            int value = hexDigitToDecimal(hexDigit);
+            String binaryDigit = decimalToBinaryString(value, 4);
+            binary.append(binaryDigit);
         }
+        return binary.toString();
+    }
 
-        // Variable used to store the octal result
-        StringBuilder octalResult = new StringBuilder();
+    public static String octalToBinary(String octal) {
+        //! debug
+        System.out.println("octal into octal to binary: " + octal);
+        StringBuilder binary = new StringBuilder();
+        for (int i = 0; i < octal.length(); i+=3) {
+            int value = 0;
+            String octalDigit = octal.substring(i, i+3);
+            System.out.println("OctalDigit:" + octalDigit);
+            System.out.println("octalDigit into octaltobinary: " + octalDigit);
+            
+            int intOctal = Integer.parseInt(octalDigit);
 
-        // Parse the binary string in 8-bit segments
+
+            value = octalToDecimal(intOctal);
+
+
+            System.out.println("value: " + value);
+            String binaryDigit = decimalToBinaryString(value, 8);
+            System.out.println("binaryDigit: " + binaryDigit);
+            binary.append(binaryDigit);
+        }
+        System.out.println("binary: " + binary);
+        return binary.toString();
+    }
+
+    public static String decimalToBinary(String decimal) {
+        StringBuilder binary = new StringBuilder();
+        for (int i = 0; i < decimal.length(); i++) {
+            char decimalDigit = decimal.charAt(i);
+            int value = decimalDigitToDecimal(decimalDigit);
+            String binaryDigit = decimalToBinaryString(value, 4);
+            binary.append(binaryDigit);
+        }
+        return binary.toString();
+    }
+
+    public static String binaryToBinary(String binary) {
+        return binary;
+    }
+
+    public static String binaryToText(String binary) {
+        StringBuilder text = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 8) {
-            // Extract an 8-bit segment
-            String byteSegment = binary.substring(i, i + 8);
-
-            // Add padding if the segment is less than 8 bits
-            int len = byteSegment.length();
-            int padLength = (3 - (len % 3)) % 3;
-            for (int j = 0; j < padLength; j++) {
-                byteSegment = "0" + byteSegment;
-            }
-
-            // Convert the 8-bit segment to octal
-            StringBuilder octal = new StringBuilder();
-            for (int k = 0; k < byteSegment.length(); k += 3) {
-                // Extraire un groupe de 3 bits manuellement
-                int octalDigit = 0;
-                if (byteSegment.charAt(k) == '1') {
-                    octalDigit += 4;
-                }
-                if (byteSegment.charAt(k + 1) == '1') {
-                    octalDigit += 2;
-                }
-                if (byteSegment.charAt(k + 2) == '1') {
-                    octalDigit += 1;
-                }
-                octal.append(octalDigit);
-            }
-
-            // Add the octal result to the final string
-            octalResult.append(octal);
+            String byteString = binary.substring(i, i + 8);
+            int charCode = binaryStringToDecimal(byteString);
+            text.append((char) charCode);
+            
         }
-
-        // Insert space every three characters
-        for (int j = 3; j < octalResult.length(); j += 4) {
-            octalResult.insert(j, " ");
-        }
-
-        // Retourn the octal result
-        return octalResult.toString();
+        return text.toString();
     }
 
     public static String binaryToHex(String binary) {
-        // Convert binary to hexadecimal
-        int len = binary.length();
-        int padLength = (4 - (len % 4)) % 4;
-        for (int i = 0; i < padLength; i++) {
-            binary = "0" + binary;
-        }
-    
         StringBuilder hex = new StringBuilder();
-        for (int i = 0; i < binary.length(); i += 4) {
-            String group = binary.substring(i, i + 4);
-            int decimalValue = Integer.parseInt(group, 2); // Convert binary group to decimal
-    
-            // Manually convert decimal to hexadecimal
-            StringBuilder hexDigit = new StringBuilder();
-            do {
-                int remainder = decimalValue % 16;
-                if (remainder < 10) {
-                    hexDigit.insert(0, (char) ('0' + remainder)); // Convert to char '0'-'9'
-                } else {
-                    hexDigit.insert(0, (char) ('A' + (remainder - 10))); // Convert to char 'A'-'F'
-                }
-                decimalValue /= 16;
-            } while (decimalValue != 0);
-            
-            hex.append(hexDigit);
+        for (int i = 0; i < binary.length(); i += 8) {
+            String nibble = binary.substring(i, i + 8);
+            int value = binaryStringToDecimal(nibble);
+            hex.append(decimalToHexDigit(value)+ " ");
         }
-    
-        // Insert space every two characters
-        for (int j = 2; j < hex.length(); j += 3) {
+        // Insert space every three characters
+        for (int j = 3; j < hex.length(); j += 4) {
             hex.insert(j, " ");
         }
-    
         return hex.toString();
     }
-    
-    public static String binaryToText(String binary) {
-        // Convert binary to text
-        StringBuilder text = new StringBuilder();
+
+    public static String binaryToOctal(String binary) {
+        //! debug
+        System.out.println("first binary: " + binary);
+        StringBuilder octal = new StringBuilder();
         for (int i = 0; i < binary.length(); i += 8) {
-            String group = binary.substring(i, i + 8);
-            int decimalValue = Integer.parseInt(group, 2); // Convert binary group to decimal
-            text.append((char) decimalValue);
+            String octet = binary.substring(i, Math.min(i + 8 , binary.length()));
+            int value = binaryStringToDecimal(octet);
+            octal.append(decimalToOctalDigit(value)+ " ");
         }
-        return text.toString();
+        return octal.toString();
+    }
+
+    public static String binaryToDecimal(String binary) {
+        StringBuilder decimal = new StringBuilder();
+        for (int i = 0; i < binary.length(); i += 8) {
+            String octet = binary.substring(i, Math.min(i + 8 , binary.length()));
+            int value = binaryStringToDecimal(octet);
+            //! debug
+            System.out.println("decimal into binary to decimal: " + decimal);
+            // insert space every three characters
+            decimal.append(value + " ");
+        }
+        return decimal.toString();
+    }
+
+    private static int hexDigitToDecimal(char hexDigit) {
+        if (hexDigit >= '0' && hexDigit <= '9') {
+            return hexDigit - '0';
+        } else if (hexDigit >= 'A' && hexDigit <= 'F') {
+            return 10 + (hexDigit - 'A');
+        } else if (hexDigit >= 'a' && hexDigit <= 'f') {
+            return 10 + (hexDigit - 'a');
+        } else {
+            throw new IllegalArgumentException("Invalid hexadecimal digit: " + hexDigit);
+        }
+    }
+
+    private static int octalToDecimal(int octal) {
+    System.out.println("octalDigit into octaldigitodecimal: " + octal);
+        int decimal = 0;
+        int power = 0;
+        
+        // Convertir le nombre octal en une chaîne de caractères pour faciliter le traitement
+        String octalString = String.valueOf(octal);
+        
+        // Parcourir les chiffres du nombre octal de droite à gauche
+        for (int i = octalString.length() - 1; i >= 0; i--) {
+            int octalDigit = octalString.charAt(i) - '0';
+            
+            // Vérifier que chaque chiffre est valide (compris entre 0 et 7)
+            if (octalDigit < 0 || octalDigit > 7) {
+                throw new IllegalArgumentException("Invalid octal digit: " + octalDigit);
+            }
+            
+            // Ajouter la valeur décimale du chiffre octal à la position correspondante
+            decimal += octalDigit * Math.pow(8, power);
+            power++;
+        }
+        
+        return decimal;
+    }
+
+    private static int decimalDigitToDecimal(char decimalDigit) {
+        if (decimalDigit >= '0' && decimalDigit <= '9') {
+            return decimalDigit - '0';
+        } else {
+            throw new IllegalArgumentException("Invalid decimal digit: " + decimalDigit);
+        }
+    }
+
+    private static String decimalToBinaryString(int value, int bits) {
+        StringBuilder binaryValue = new StringBuilder();
+        while (value > 0) {
+            int remainder = value % 2;
+            value = value / 2;
+            binaryValue.insert(0, remainder);
+        }
+        while (binaryValue.length() < bits) {
+            binaryValue.insert(0, "0");
+        }
+        return binaryValue.toString();
+    }
+
+    private static int binaryStringToDecimal(String binaryString) {
+        //! debug
+        System.out.println("into binarystringtodecimal binaryString: " + binaryString);
+        int decimalValue = 0;
+        int power = 0;
+        for (int i = binaryString.length() - 1; i >= 0; i--) {
+            char bit = binaryString.charAt(i);
+
+            if (bit == '1') {
+                decimalValue += Math.pow(2, power);
+            }
+            power++;
+        }
+        //! debug
+        System.out.println("decimalValue: " + decimalValue);
+        return decimalValue;
+    }
+
+    private static String decimalToHexDigit(int decimal) {
+        if (decimal < 0) {
+            throw new IllegalArgumentException("Decimal number must be non-negative: " + decimal);
+        }
+        
+        StringBuilder hex = new StringBuilder();
+        
+            while (decimal > 0) {
+                int remainder = decimal % 16;
+                
+                if (remainder < 10) {
+                    hex.insert(0, (char) ('0' + remainder));
+                } else {
+                    hex.insert(0, (char) ('A' + (remainder - 10)));
+                }
+                
+                decimal /= 16;
+            }
+        
+            // Handle the case when the number is 0
+            if (hex.length() == 0) {
+                hex.append('0');
+            }
+        
+        return hex.toString();
+    }
+    private static String decimalToOctalDigit(int decimal) {
+        if (decimal >= 0 && decimal <= 7) {
+            return Character.toString((char) ('0' + decimal));  // Si le nombre est déjà un chiffre octal simple (0-7), le retourner directement
+        } else {
+            StringBuilder octal = new StringBuilder();
+            while (decimal > 0) {
+                int remainder = decimal % 8;  // Obtenir le reste de la division par 8
+                System.out.println("remainder: " + remainder);
+                octal.insert(0, (char) ('0' + remainder));  // Insérer le chiffre octal à l'index 0
+                decimal /= 8;  // Mettre à jour le quotient pour la prochaine division
+            }
+            System.out.println("octal.charAt(0): " + octal.charAt(0));
+            System.out.println("octal: " + octal);
+            return octal.toString();  // Convertir le StringBuilder en String avant de le retourner
+        }
     }
 }
