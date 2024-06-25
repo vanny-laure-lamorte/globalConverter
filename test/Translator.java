@@ -1,4 +1,4 @@
-package src;
+package test;
 
 public class Translator {
 
@@ -43,7 +43,6 @@ public class Translator {
             "0100000" // space 
         };
 
-        
     }
 
 }

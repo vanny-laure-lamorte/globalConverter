@@ -1,7 +1,6 @@
 package src;
 
 public class Caesar {
-
     // Method to convert a decimal number to binary string
     public static String convertToBinary(int number) {
         if (number == 0)
@@ -29,7 +28,7 @@ public class Caesar {
         StringBuilder result = new StringBuilder();
         int carry = 0;
 
-        // Traverse the binary strings from right to left 
+        // Traverse the binary strings from right to left
         for (int i = binary1.length() - 1; i >= 0; i--) {
             int bit1 = binary1.charAt(i) - '0';
             int bit2 = binary2.charAt(i) - '0';
@@ -44,19 +43,13 @@ public class Caesar {
         return result.reverse().toString();
     }
 
-    // Method ti perform encryption using Caesar Cipher with binary manipulation
-    public static String encryption(String inputString, int offset) {
-        // Convert the inputString to a binary with spaces after every 8 bits
-        StringBuilder binaryString = new StringBuilder();
-        for (char c : inputString.toCharArray()) {
-            String binaryChar = padBinaryString(convertToBinary((int) c), 8);
-            binaryString.append(binaryChar).append(" ");
-        }
-        String inputBinary = binaryString.toString().trim(); // Trim to remove extra space at the end
-    
+    // Method to perform encryption using Caesar Cipher with binary manipulation
+    public static String encryption(String inputString, int offset, char baseFrom, char baseType) {
+        String inputBinary = Translate.translateTowardBinary(baseFrom, inputString, baseType);
+
         // Convert the offset to an 8-bit binary
         String binaryOffset = padBinaryString(convertToBinary(offset), 8);
-    
+
         // Split the inputBinary into octets and apply the offset
         StringBuilder addedBinaryString = new StringBuilder();
         String[] octets = inputBinary.split(" ");
@@ -70,19 +63,15 @@ public class Caesar {
                 }
             }
         }
-        String finalBinaryString = addedBinaryString.toString().trim().replace(" ",""); // Trim to remove extra space at the end
-    
+        String finalBinaryString = addedBinaryString.toString().trim().replace(" ", "");
+
         // Convert the shifted binary string back to text
-        String results = Translate.binaryToText(finalBinaryString); 
+        String results = Translate.binaryToText(finalBinaryString);
 
         // Display messages
-        System.out.println("1. Input string to Binary: " + inputBinary);
-        System.out.println("2. Shifted binary string: " + finalBinaryString);
+        System.out.println("\nYour string before Caesar Cipher: " + inputString);
+        System.out.println("Your string after Caesar Cipher with " + offset + " as a shift value: " + results + "\n");
 
-        System.out.println("\n3. Your string before Caesar Cipher: " + inputString);
-        System.out.println("4. Your string after Caesar Cipher with " + offset + " as a shift value: " + results + "\n");
-    
         return results.toString();
     }
-    
 }

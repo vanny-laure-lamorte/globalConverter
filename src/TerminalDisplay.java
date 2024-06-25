@@ -2,7 +2,6 @@ package src;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import src.InputUser.InputValidator;
 
 public class TerminalDisplay {
@@ -12,8 +11,8 @@ public class TerminalDisplay {
         System.out.print("\n" +
                 "       ╔═══════════════════════════════════════════╗\n" +
                 "       ║                                           ║\n" +
-                "       ║       WELCOME TO GLOBAL CONVERTER         ║\n" +
-                "       ║        By Lucas M., Than L, Vanny L.      ║\n" +
+                "       ║        WELCOME TO GLOBAL CONVERTER        ║\n" +
+                "       ║       By Lucas M., Thanh L, Vanny L.      ║\n" +
                 "       ║                                           ║\n" +
                 "       ╚═══════════════════════════════════════════╝\n");
     }
@@ -57,7 +56,6 @@ public class TerminalDisplay {
             inputString = input.nextLine();
             System.out.println();
         }
-
         return inputString;
     }
 
@@ -81,8 +79,9 @@ public class TerminalDisplay {
         String inputBaseTo = input.nextLine().toLowerCase();
 
         while (!InputValidator.isValidBaseTo(inputBaseTo)) {
-            System.out.print("Invalid input! Please choose one of the available base options" +
-                    "\nPlease enter your translation base: ");
+            System.out.print(
+                    "Invalid input! Please choose one of the available base options" +
+                            "\nPlease enter your translation base: ");
             inputBaseTo = input.nextLine().toLowerCase();
         }
         return inputBaseTo;
@@ -141,25 +140,25 @@ public class TerminalDisplay {
 
     // Display all messages in the terminal
     public static String startTranslation(Scanner input) {
-
         displayWelcomeMessage();
         String inputBaseFrom = getTranslationBaseFrom(input);
         displayTranslationBaseTo(inputBaseFrom);
         String inputString = getInputString(input, inputBaseFrom);
         displayStringToTranslate(inputString);
 
-        // Display Cesar Cipher only if the user doesn't chose return
         String inputBaseTo = getTranslationBaseTo(input);
         if (!inputBaseTo.equals("r") && !inputBaseTo.equals("return")) {
-            String outputString = Translate.translateTowardBinary(inputBaseFrom.charAt(0), inputString, inputBaseTo.charAt(0));
+            String outputString = Translate.translateTowardBinary(inputBaseFrom.charAt(0), inputString,
+                    inputBaseTo.charAt(0));
             displayTranslationBaseTo(inputBaseTo);
             displayTranslationResult(inputString, inputBaseTo, outputString);
+
+            // Display Cesar Cipher only if the user doesn't chose return
             displayCaesarMessage();
             int inputShift = displayCaesarInput(input);
             if (inputShift != 0)
-                Caesar.encryption(inputString, inputShift);
+                Caesar.encryption(inputString, inputShift, inputBaseFrom.charAt(0), 'b');
         }
-
         return inputBaseTo;
     }
 }

@@ -3,19 +3,12 @@ package src;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-
         // Open a scanner
         Scanner input = new Scanner(System.in);
-        
-
-        // 
-
 
         try {
             String statusBase;
-
             // Return option
             do {
                 statusBase = TerminalDisplay.startTranslation(input);
@@ -23,10 +16,5 @@ public class Main {
         } finally {
             input.close();
         }
-
-    }    
-
-
+    }
 }
-
-
